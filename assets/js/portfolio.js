@@ -38,10 +38,10 @@
   // Site: somente o projeto selecionado carrega, em loop e sem áudio por padrão.
   var siteFrame = document.getElementById("portfolioSiteFrame");
   var siteTabs = document.getElementById("portfolioSiteTabs");
-  var siteVideo = null, siteInView = false, siteStarted = false;
+  var siteVideo = null, siteInView = false;
   function syncSite() {
     if (!siteVideo) return;
-    var allowed = siteStarted && siteInView && !document.hidden && !document.getElementById("deviceModal").classList.contains("is-open");
+    var allowed = siteInView && !document.hidden && !document.getElementById("deviceModal").classList.contains("is-open");
     if (allowed) {
       if (!siteVideo.getAttribute("src")) siteVideo.src = siteVideo.dataset.src;
       siteVideo.muted = true;
@@ -50,24 +50,17 @@
   }
   function selectSite(index) {
     if (siteVideo) siteVideo.pause();
-    siteVideo = null; siteStarted = false;
+    siteVideo = null;
     var project = sites[index] || { title: "Projeto de site" };
     siteFrame.replaceChildren();
     siteFrame.style.aspectRatio = "16 / 9";
     if (project.video) {
       var media = el("video", "portfolio-site-video");
-      media.dataset.src = project.video; media.muted = true; media.loop = true; media.playsInline = true; media.preload = "none";
+      media.dataset.src = project.video; media.muted = true; media.loop = true; media.autoplay = true; media.playsInline = true; media.preload = "none";
       media.setAttribute("aria-label", "Prévia de " + project.title);
       media.setAttribute("controlslist", "nodownload noremoteplayback");
       media.disableRemotePlayback = true;
       if (project.cover) media.poster = project.cover;
-      var play = el("button", "portfolio-site-play", "▶");
-      play.type = "button"; play.setAttribute("aria-label", "Reproduzir prévia do site");
-      play.addEventListener("click", function () {
-        siteStarted = true;
-        play.remove();
-        syncSite();
-      });
       media.addEventListener("loadedmetadata", function () {
         if (siteVideo === media && media.videoWidth && media.videoHeight) siteFrame.style.aspectRatio = media.videoWidth + " / " + media.videoHeight;
       });
@@ -75,7 +68,7 @@
         media.pause();
         if (siteVideo === media) { siteFrame.replaceChildren(placeholder()); siteVideo = null; }
       }, { once: true });
-      siteFrame.append(media, play); siteVideo = media;
+      siteFrame.append(media); siteVideo = media;
     } else { siteFrame.appendChild(placeholder()); }
     Array.from(siteTabs.children).forEach(function (button, i) { button.setAttribute("aria-pressed", String(i === index)); });
     link(document.getElementById("portfolioSiteLink"), project.link, "Visitar site");
