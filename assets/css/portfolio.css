@@ -400,12 +400,12 @@
 #portfolio .portfolio-preview__play {
   position: absolute;
   left: 50%;
-  bottom: 14px;
+  top: 50%;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   border: 2px solid rgba(255,255,255,.9);
   border-radius: 50%;
   background: rgba(0,0,0,.5);
