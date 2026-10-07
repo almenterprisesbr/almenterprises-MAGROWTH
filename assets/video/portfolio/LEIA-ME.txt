@@ -3,7 +3,11 @@ COMO ADICIONAR UM VIDEO NA SECAO "VIDEOS/ANUNCIOS"
 1) Coloque o arquivo (.mp4) NESTA pasta. Ex.: ugc-01.mp4
    - Pode ser 9:16 (em pe) ou 16:9 (deitado): o site reconhece sozinho.
    - Dica de peso: H.264, ate ~1080p, uns 2 a 4 Mbps. Quanto mais leve, mais rapido carrega.
-2) Abra assets/js/main.js e procure por  "EDITE AQUI".
-3) Na linha do video, coloque o caminho em src, por exemplo:
-   src: "assets/video/portfolio/ugc-01.mp4"
-   e edite handle (o @) e desc (a descricao) do mesmo video.
+2) Abra assets/js/portfolio-data.js. Todo o conteudo do portfolio fica nesse arquivo.
+3) Acrescente um registro na lista videos com id unico, order, title,
+   video: "assets/video/portfolio/ugc-01.mp4" e cover (capa WebP recomendada).
+   ratio opcional: "9 / 16" ou "16 / 9". O player ajusta pela midia real.
+   O video abre com audio apos o clique; somente um e carregado por vez.
+4) Sites usam video e link; identidades usam before, after e link.
+   Social usa cover e posts (lista de caminhos de imagens).
+   Campos vazios aparecem como "Em breve". Nao e necessario painel de upload.
